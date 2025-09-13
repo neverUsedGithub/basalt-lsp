@@ -1,0 +1,25 @@
+{
+  "name": "basalt-lsp",
+  "main": "dist/index.js",
+  "private": true,
+  "version": "0.0.1",
+  "type": "commonjs",
+  "scripts": {
+    "build": "bun build --outdir dist --external vscode --format cjs --target node src/index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "prettier": "^3.6.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@justcoding123/logger": "^1.0.5",
+    "@justcoding123/minitype": "^0.0.4",
+    "nbt-ts": "^1.3.6",
+    "smol-toml": "^1.4.2",
+    "vscode-languageserver": "^9.0.1",
+    "vscode-languageserver-textdocument": "^1.0.12"
+  }
+}
