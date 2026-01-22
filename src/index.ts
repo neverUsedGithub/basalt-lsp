@@ -115,6 +115,7 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
     documentToAST.set(textDocument.uri, { nodes, checker });
   } catch (error) {
     documentToAST.delete(textDocument.uri);
+    logMessage("Error", `${error}\n${(error as Error).stack}`);
     logMessage("Warn", `Unrecoverable error. (stage ${stage})`);
 
     if (error instanceof SourceError) {
