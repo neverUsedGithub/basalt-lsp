@@ -1,0 +1,40 @@
+name: "pre-release"
+
+on:
+  push:
+    branches:
+      - "master"
+
+env:
+  GH_TOKEN: ${{ github.token }}
+
+jobs:
+  pre-release:
+    name: "Pre-Release"
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Download Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build
+        run: bun run build
+
+      - name: Get date
+        run: echo "DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
+
+      - name: Zip release directory
+        run: zip -r pre-release-${{ env.DATE }}.zip dist
+
+      - name: Create release
+        run: |
+          gh release create pre-release-${{ env.DATE }} \
+            pre-release-${{ env.DATE }}.zip \
+            --title "Pre-Release ${{ env.DATE }}" \
+            --prerelease \
+            --generate-notes
