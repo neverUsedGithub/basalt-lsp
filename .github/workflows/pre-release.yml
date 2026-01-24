@@ -15,6 +15,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          submodules: 'recursive'
 
       - name: Download Bun
         uses: oven-sh/setup-bun@v2
