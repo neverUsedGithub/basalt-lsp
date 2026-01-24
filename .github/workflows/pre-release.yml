@@ -27,16 +27,18 @@ jobs:
       - name: Build
         run: bun run build
 
-      - name: Get date
-        run: echo "DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
+      - name: Get version identifiers
+        run: |
+          echo "DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
+          echo "SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
       - name: Zip release directory
-        run: zip -r pre-release-${{ env.DATE }}.zip dist
+        run: zip -r pre-release-${{ env.DATE }}-${{ env.SHA }}.zip dist
 
       - name: Create release
         run: |
-          gh release create pre-release-${{ env.DATE }} \
-            pre-release-${{ env.DATE }}.zip \
-            --title "Pre-Release ${{ env.DATE }}" \
+          gh release create pre-release-${{ env.DATE }}-${{ env.SHA }} \
+            pre-release-${{ env.DATE }}-${{ env.SHA }}.zip \
+            --title "Pre-Release ${{ env.DATE }} (${{ env.SHA }})" \
             --prerelease \
             --generate-notes
